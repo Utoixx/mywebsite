@@ -37,13 +37,13 @@
         title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
 
         <label for="repsw"><b>Re-Enter Password</b></label>
-        <input type="Password" placeholder="Re-Enter your password" name="repsw" required><br>
+        <input type="Password" id="repsw" placeholder="Re-Enter your password" name="repsw" required><br>
 
         <label for="email"><b>Your email address</b></label>
-        <input type="text" placeholder="Enter your email address" name="email" required><br>
+        <input type="email" placeholder="Enter your email address" name="email" required><br>
 
         <label for="tel"><b>Your phone number</b></label>
-        <input type="text" placeholder="Enter your phone number" name="tel" required><br>
+        <input type="tel" placeholder="Enter your phone number" name="tel" required><br>
 
         <label for="addr"><b>Your address</b></label>
         <input type="text" placeholder="Enter your address" name="addr" required><br>
@@ -117,6 +117,20 @@
             length.classList.add("invalid");
           }
         }
+
+        var password = document.getElementById("psw")
+        var confirm_password = document.getElementById("repsw");
+
+        function validatePassword(){
+          if(password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+          } else {
+            confirm_password.setCustomValidity('');
+          }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
     </script>
 </body>
 </html>
