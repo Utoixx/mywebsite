@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <style>
 
@@ -25,6 +24,7 @@
         </style>
     </head>
 <body>
+<button onclick="document.location='homepage.php'">Home</button>
 <h2>Sign up form</h2>
 
 <form action="/signup_action.php" onsubmit = "return validation()" method="post">
@@ -43,10 +43,10 @@
         <input type="email" placeholder="Enter your email address" name="email" required><br>
 
         <label for="tel"><b>Your phone number</b></label>
-        <input type="tel" placeholder="Enter your phone number" name="tel" required><br>
+        <input type="tel" placeholder="Enter your phone number" name="tel"><br>
 
         <label for="addr"><b>Your address</b></label>
-        <input type="text" placeholder="Enter your address" name="addr" required><br>
+        <input type="text" placeholder="Enter your address" name="addr"><br>
         
         <button type="submit">Sign up</button>
     </form>

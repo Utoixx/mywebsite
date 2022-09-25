@@ -17,7 +17,7 @@
 
     if(isset($_POST['login'])) 
     { 
-          if(checkuser())  // username is  set to "Ank"  and Password   
+          if(checkuser())   
           {                                    
       
             $_SESSION['use']=$username;
@@ -25,13 +25,16 @@
           }
           else
           {
-            echo "invalid UserName or Password";        
+            echo "<script>
+                alert('Username or password incorrect!');
+                window.location.href='login_form.php';
+                </script>";        
           }
     }
     function checkuser()
     {
         global $con, $username, $password;
-        $sql = "select paswd from user where id = '$username'";  
+        $sql = "select password from users where id = '$username'";  
         $result = mysqli_query($con, $sql);  
         $count = mysqli_num_rows($result);
               

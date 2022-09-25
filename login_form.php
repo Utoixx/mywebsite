@@ -2,7 +2,7 @@
   session_start(); 
   if(isset($_SESSION['use']))                  
   {
-    header("Location:home.php"); 
+    header("Location:homepage.php"); 
   }
 ?>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@
     <input type="password" placeholder="Enter Password" name="psw" required><br>
         
     <button type="submit" name="login">Login</button>
-    <button onclick="document.location='signup_form.html'" type="submit">Create new account</button>
+    <button onclick="document.location='signup_form.php'" type="submit">Create new account</button>
 </form>
 
 </body>

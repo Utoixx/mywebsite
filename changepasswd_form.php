@@ -27,6 +27,7 @@
         </style>
     </head>
 <body>
+<button onclick="document.location='index.php'">Home</button>
 <h2>Change password</h2>
 
 <form action="/changepasswd_action.php" onsubmit = "return validation()" method="post">
@@ -42,7 +43,7 @@
         <input type="Password" id="repsw" placeholder="Re-Enter your password" name="repsw" required><br>
         
         <button type="submit">Change</button>
-        <button onclick="document.location='homepage.html'">Cancle</button>
+        <button onclick="document.location='homepage.php'">Cancle</button>
     </form>
 
     <div id="message">

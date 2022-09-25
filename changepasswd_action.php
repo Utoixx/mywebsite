@@ -14,7 +14,7 @@
     
     if(checkuser()){
         $hash_default_salt = password_hash($password,PASSWORD_DEFAULT);
-        $sql = "update user set paswd = '$hash_default_salt' where id = '$username'";  
+        $sql = "update users set password = '$hash_default_salt' where id = '$username'";  
         $result = mysqli_query($con, $sql);
         if($result){
             session_destroy();
@@ -38,7 +38,7 @@
     function checkuser()
     {
         global $con, $username, $currentpasswd;
-        $sql = "select paswd from user where id = '$username'";  
+        $sql = "select password from users where id = '$username'";  
         $result = mysqli_query($con, $sql);  
         $count = mysqli_num_rows($result);
               

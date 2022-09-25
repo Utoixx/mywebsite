@@ -14,7 +14,7 @@
         $password = mysqli_real_escape_string($con, $password);  ;
 
       
-        $sql = "select * from user where id = '$username'";  
+        $sql = "select * from users where id = '$username'";  
         $result = mysqli_query($con, $sql);  
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);  
         $count = mysqli_num_rows($result);  
@@ -24,12 +24,18 @@
         }  
         else{  
             $hash_default_salt = password_hash($password,PASSWORD_DEFAULT);
-            $sql = "INSERT INTO user (id, paswd, email, tel, addr)VALUES ('$username', '$hash_default_salt', '$email', '$tel', '$addr')";  
+            $sql = "insert into users (id, password, email, tel, addr) values ('$username', '$hash_default_salt', '$email', '$tel', '$addr')"; 
             $result = mysqli_query($con, $sql);  
             if($result){
-                echo "<h1><center> Create successful! </center></h1>";
+                echo "<script>
+                    alert('Create account successful!');
+                    window.location.href='login_form.php';
+                </script>";
             }else{
-                echo "<h1><center> Add account failed! </center></h1>";
+                echo "<script>
+                        alert('Create account failed!');
+                        window.location.href='signup_form.php';
+                    </script>";
             }
         }     
 ?>
