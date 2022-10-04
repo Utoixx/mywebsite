@@ -72,6 +72,7 @@
             <input type="button" value="Update role" onclick="GetSelected()" />
         </form>
         <hr>
+        <h2>Add new role</h2>
         <form action="/addrole.php" method="post">
             <label for="role_name"><b>Role name</b></label>
             <input type="text" placeholder="Enter role name" name="role_name" required><br>
@@ -98,6 +99,37 @@
             <label for="approveSurvey"><b>Approve survey</b></label>
             <input type="checkbox" name="approve_surve"><br>
             <button type="submit" name="Add role">Add role</button>
+        </form>
+        <hr>
+        <h2>List all user role</h2>
+        <form action="/deleteUserRole.php" method="post">
+        <table id="Table2">
+            <tr>
+                <th>Delete</th>
+                <th>Account</th>
+                <th>Role</th>
+            </tr>
+            <?php
+                // LOOP TILL END OF DATA
+                $sql = "select * from user_role";
+                $sth = mysqli_query($con, $sql);
+                while($rows=mysqli_fetch_row($sth))
+                {
+
+                    $sql2 = "select * from roles where role_id = $rows[1]";
+                    $sth2 = mysqli_query($con, $sql2);
+                    $rows2=mysqli_fetch_row($sth2);
+            ?>
+            <tr>
+                <td><input type="checkbox" name="checkbox"></td>
+                <td><?php echo $rows[0];?></td>
+                <td><?php echo $rows2[1];?></td>
+            </tr>
+            <?php
+                }
+            ?>
+        </table>
+            <input type="button" value="Update" onclick="GetSelected2()" />
         </form>
 
         <script type="text/javascript">
