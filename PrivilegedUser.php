@@ -12,17 +12,17 @@ class PrivilegedUser extends User
     // override User method
     public static function getByUserID($id) {
         global $con;
-        $sql = "SELECT * FROM users WHERE id = :id";
-        $sth = $con->prepare($sql);
-        $sth->execute(array(":id" => $id));
-        $result = $sth->fetchAll();
+        $sql = "SELECT * FROM users WHERE id = '$id'";
+        $sth = mysqli_query($con, $sql);
+        $result = mysqli_fetch_row($sth);
+
 
         if (!empty($result)) {
             $privUser = new PrivilegedUser();
             $privUser->id = $id;
-            $privUser->email = $result[0]["email"];
-            $privUser->tel = $result[0]["tel"];
-            $privUser->addr = $result[0]["addr"];
+            $privUser->email = $result[2];
+            $privUser->tel = $result[3];
+            $privUser->addr = $result[4];
             $privUser->initRoles();
             return $privUser;
         } else {
@@ -36,13 +36,10 @@ class PrivilegedUser extends User
         $this->roles = array();
         $sql = "SELECT t1.role_id, t2.role_name FROM user_role as t1
                 JOIN roles as t2 ON t1.role_id = t2.role_id
-                WHERE t1.id = ?";
-        $sth = $con->prepare($sql);
-        $sth->bind_param("s", $this->id);
-        $sth->execute();
-
-        while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $this->roles[$row["role_name"]] = Role::getRolePerms($row["role_id"]);
+                WHERE t1.id = '$this->id'";
+        $sth = mysqli_query($con, $sql);
+        while($row = mysqli_fetch_row($sth)) {
+            $this->roles[$row[0]] = Role::getRolePerms($row[0]);
         }
     }
 

@@ -1,3 +1,26 @@
+<?php
+    include('connection.php');
+    include('Role.php');
+    include('PrivilegedUser.php');
+    session_start(); 
+    if(!isset($_SESSION['use']))                  
+    {
+        $message = "Your session expired!";
+        echo "<script type='text/javascript'>alert('$message');</script>";
+        header("Location: index.php");
+    }   
+    $userID = $_SESSION['use'];
+
+    $u = PrivilegedUser::getByUserID($userID);
+    if(!$u->hasPrivilege("addRole")||!$u->hasPrivilege("editRole")||!$u->hasPrivilege("deleteRole"))
+    {
+        $message = "Your don't have permission!";
+        echo "<script type='text/javascript'>alert('$message');</script>";
+        header("Location: index.php");
+    }
+
+    echo "<h1>Hello ".$_SESSION['use']."</h1>";
+?>
 <!DOCTYPE html>
 <html lang="en"> 
 <head>
@@ -17,6 +40,7 @@
 </style>
 </head>
 <body>
+<button onclick="document.location='index.php'">Home</button>
     <section>
         <h1>Roles Management</h1>
         <form action="/rolemanagement_action.php" method="post">
@@ -34,12 +58,10 @@
                 <th>Edit role</th>
                 <th>Delte role</th>
                 <th>Enable user account</th>
-                <th>Approve survery<th>
+                <th>Approve survery</th>
             </tr>
             <?php
                 // LOOP TILL END OF DATA
-                include('connection.php');
-                include('Role.php');
                 $sql = "select * from roles";
                 $sth = mysqli_query($con, $sql);
 
@@ -102,7 +124,7 @@
         </form>
         <hr>
         <h2>List all user role</h2>
-        <form action="/deleteUserRole.php" method="post">
+        <form>
         <table id="Table2">
             <tr>
                 <th>Delete</th>
@@ -130,6 +152,16 @@
             ?>
         </table>
             <input type="button" value="Update" onclick="GetSelected2()" />
+        </form>
+
+        <hr>
+        <h2>Add role to user</h2>
+        <form action="/addRoleToUser.php" method="post">
+            <label for="user_name"><b>Account</b></label>
+            <input type="text" placeholder="Enter account" name="user_name" required><br>
+            <label for="role_name"><b>Role name</b></label>
+            <input type="text" placeholder="Enter role name" name="role_name" required><br>
+            <button type="submit" name="Add">Add</button>
         </form>
 
         <script type="text/javascript">
@@ -212,6 +244,39 @@
                         xmlhttp.send();
                     }
                     i+=12;
+                }
+            }
+            function GetSelected2() {
+                //Reference the Table.
+                var grid = document.getElementById("Table2");
+    
+                //Reference the CheckBoxes in Table.
+                var checkBoxes = grid.getElementsByTagName("INPUT");
+ 
+                //Loop through the CheckBoxes.
+                var i = 0;
+
+                while(i<checkBoxes.length){
+                    var message = "";
+                    if(checkBoxes[i].checked){
+                        var row = checkBoxes[i].parentNode.parentNode;
+                        var user_id = row.cells[1].innerHTML;
+                        var role_name = row.cells[2].innerHTML;
+                        message+=user_id;
+                        message+="?";
+                        message+=role_name;
+                        
+                        var xmlhttp = new XMLHttpRequest();
+                        xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                alert(this.responseText);
+                                location.reload();
+                            }
+                        };
+                        xmlhttp.open("GET", "deleteUserRole.php?q="+message, true);
+                        xmlhttp.send();
+                    }
+                    i++;
                 }
             }
         </script>
